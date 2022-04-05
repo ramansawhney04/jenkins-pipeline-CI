@@ -11,8 +11,8 @@ pipeline {
 
 	  stage ('Build') {
 	    steps {
-		  sh 'mvn --version'
-		  sh 'node --version'
+		  //sh 'mvn --version'
+		  //sh 'node --version'
 		  echo "Build"
 		  echo "PATH - $PATH"
 		  echo "BUILD_NUMBER - $env.BUILD_NUMBER"
@@ -22,7 +22,7 @@ pipeline {
 		  echo "BUILD_URL - $env.BUILD_URL"
         }
       }
-	      
+
       stage ('Compile') {
         steps {
           sh "mvn clean compile"
