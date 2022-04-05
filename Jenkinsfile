@@ -4,11 +4,11 @@ pipeline {
 	// agent { docker { image 'node:13.8'} }
     environment {
         dockerHome = tool 'mydocker'
-	mavenHome = tool 'my-mvn'
-	PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
+	    mavenHome = tool 'my-mvn'
+	    PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
     }
     stages {
-	stage('Build') {
+	  stage('Build') {
 	    steps {
 		sh 'mvn --version'
 		sh 'node --version'
@@ -20,50 +20,50 @@ pipeline {
 		echo "BUILD_TAG - $env.BUILD_TAG"
 		echo "BUILD_URL - $env.BUILD_URL"
               }
-	}
-    }	    
-	stage('Compile') {
+	       }
+      }	    
+	  stage('Compile') {
 	    steps {
                 sh "mvn clean compile"
-		}
-	}
+		    }
+	  }
 	
-	stage('Test') {
+	  stage('Test') {
 	    steps {
                 sh "mvn test"
-		}
-	}
+	    	}
+	  }
 	
-	stage('Integration Test') {
+	  stage('Integration Test') {
 	    steps {
 	        sh "mvn failsafe:integration-test failsafe:verify"
-	    }
-	}
+	      }
+	  }
 	
-	stage('Package') {
+	  stage('Package') {
 	    steps {
 	        sh "mvn package -DskipTests"
-	    }
-	}
+	      }
+	  }
 	
-        stage('Build Docker Image') {
+      stage('Build Docker Image') {
 	    steps {
                 //sh "docker build -t ramansawhney04/currency-exchange-devops:$env.BUILD_TAG"
 		    script {
 	                dockerImage = docker build("ramansawhney04/currency-exchange-devops:${env.BUILD_TAG}")   
-		    }
-	    }
-	}
-        stage('Push Docker Image') {
+		       }
+	        }
+	  }
+      stage('Push Docker Image') {
 	    steps {
                 //sh "docker build -t ramansawhney04/currency-exchange-devops:$env.BUILD_TAG"
 		    script {
-			    docker.withRegistry('', 'docker-hub-credentials') {    
-	                      dockerImage.push();
-			      dockerImage.push('latest');
-			    }
-		    }
-	    }
-       }
+			        docker.withRegistry('', 'docker-hub-credentials') {    
+	                    dockerImage.push();
+			            dockerImage.push('latest');
+			      }
+		      }
+	      } 
+      }
 }
 
