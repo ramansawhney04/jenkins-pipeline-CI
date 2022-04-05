@@ -8,7 +8,7 @@ pipeline {
 	    PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
     }
     stages {
-	  stage('Build') {
+	  stage ('Build') {
 	    steps {
 		sh 'mvn --version'
 		sh 'node --version'
@@ -22,31 +22,31 @@ pipeline {
               }
 	       }
       }	    
-	  stage('Compile') {
+	  stage ('Compile') {
 	    steps {
                 sh "mvn clean compile"
 		    }
 	  }
 	
-	  stage('Test') {
+	  stage ('Test') {
 	    steps {
                 sh "mvn test"
 	    	}
 	  }
 	
-	  stage('Integration Test') {
+	  stage ('Integration Test') {
 	    steps {
 	        sh "mvn failsafe:integration-test failsafe:verify"
 	      }
 	  }
 	
-	  stage('Package') {
+	  stage ('Package') {
 	    steps {
 	        sh "mvn package -DskipTests"
 	      }
 	  }
 	
-      stage('Build Docker Image') {
+      stage ('Build Docker Image') {
 	    steps {
                 //sh "docker build -t ramansawhney04/currency-exchange-devops:$env.BUILD_TAG"
 		    script {
@@ -54,7 +54,7 @@ pipeline {
 		       }
 	        }
 	  }
-      stage('Push Docker Image') {
+      stage ('Push Docker Image') {
 	    steps {
                 //sh "docker build -t ramansawhney04/currency-exchange-devops:$env.BUILD_TAG"
 		    script {
