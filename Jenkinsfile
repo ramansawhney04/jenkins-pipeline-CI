@@ -59,7 +59,7 @@ pipeline {
 	    steps {
                 //sh "docker build -t ramansawhney04/currency-exchange-devops:$env.BUILD_TAG"
 		  script {
-		      docker.withRegistry('', 'docker-hub-credentials') {    
+		      docker.withRegistry('', 'dockerhub-creds') {    
 	            dockerImage.push();
 			    dockerImage.push('latest');
 			      }
