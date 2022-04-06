@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -6,7 +6,7 @@ metadata:
   name: currency-conversion
   namespace: default
 spec:
-  replicas: 2 #CHANGE
+  replicas: 2
   minReadySeconds: 45
   selector:
     matchLabels:
@@ -22,7 +22,7 @@ spec:
         app: currency-conversion
     spec:
       containers:
-      - image: in28min/currency-conversion:0.0.1-RELEASE #CHANGE
+      - image: ramansawhney04/currency-exchange-devops:latest 
         imagePullPolicy: IfNotPresent
         name: currency-conversion
         # env:
@@ -40,16 +40,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels: #PODS
+  labels:
     app: currency-conversion
   name: currency-conversion
   namespace: default
 spec:
   ports:
-  - port: 8100 #CHANGE
+  - port: 8100 
     protocol: TCP
-    targetPort: 8100 #CHANGE
+    targetPort: 8100
   selector:
     app: currency-conversion
-  sessionAffinity: None #CHANGE
+  sessionAffinity: None
   type: LoadBalancer
