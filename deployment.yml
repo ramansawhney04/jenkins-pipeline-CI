@@ -46,10 +46,29 @@ metadata:
   namespace: default
 spec:
   ports:
-  - port: 8100 
+  - port: 8000
     protocol: TCP
-    targetPort: 8100
+    targetPort: 8000
   selector:
     app: currency-conversion
   sessionAffinity: None
-  type: LoadBalancer
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+ kind: Ingress
+ metadata:
+   name: currency-conversion-ingress
+   labels:
+     app: currency-conversion
+   annotations:
+     nginx.ingress.kubernetes.io/rewrite-target: /  
+ spec:
+   rules:
+   - host: java-project.tech-learning.live
+     http:
+       paths:
+       - path: 
+         backend:
+           serviceName: currency-conversion
+           servicePort: 8000
